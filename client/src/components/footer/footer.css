@@ -1,0 +1,14 @@
+footer {
+    max-width: 1600px;
+    width: 100%;
+    margin: 0 auto;
+    background: linear-gradient(to right, rgba(0, 255, 255, 0.2), #4fc3f7);
+    display: flex;
+    align-items: center;
+    padding: 50px 30px;
+}
+
+footer img {
+    width: 300px;
+    object-fit: cover;
+}
