@@ -1,0 +1,134 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: "{{ .Release.Name }}"
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: "{{ .Release.Name }}"
+  template:
+    metadata:
+      annotations:
+        git/commit: "{{ .Values.gitCommit }}"
+      labels:
+        app: "{{ .Release.Name }}"
+    spec:
+      serviceAccountName: fishstat
+      volumes:
+        - name: tls
+          secret:
+            secretName: "{{ .Release.Name }}-sber"
+      containers:
+      - name: auth
+        volumeMounts:
+          - name: tls
+            mountPath: "/app/src/common/cert"
+            readOnly: true
+        env:
+          - name: DB_HOST
+            valueFrom:
+              configMapKeyRef:
+                name: auth
+                key: DB_HOST
+          - name: DB_PORT
+            valueFrom:
+              configMapKeyRef:
+                name: auth
+                key: DB_PORT
+          - name: DB_NAME
+            valueFrom:
+              configMapKeyRef:
+                name: auth
+                key: DB_NAME
+          - name: DB_USER
+            valueFrom:
+              secretKeyRef:
+                name: auth
+                key: DB_USER
+          - name: DB_PASSWORD
+            valueFrom:
+              secretKeyRef:
+                name: auth
+                key: DB_PASSWORD
+          # Собираем DATABASE_URL из переменных
+          - name: DATABASE_URL
+            value: "postgresql://$(DB_USER):$(DB_PASSWORD)@$(DB_HOST):$(DB_PORT)/$(DB_NAME)?schema: public"
+          - name: RABBITMQ_SERVICE_NAME
+            valueFrom:
+              configMapKeyRef:
+                name: auth
+                key: RABBITMQ_SERVICE_NAME
+          - name: RABBITMQ_NAMESPACE
+            valueFrom:
+              configMapKeyRef:
+                name: auth
+                key: RABBITMQ_NAMESPACE
+          - name: RABBITMQ_USER
+            valueFrom:
+              secretKeyRef:
+                name: auth
+                key: RABBITMQ_USER
+          - name: RABBITMQ_PASSWORD
+            valueFrom:
+              secretKeyRef:
+                name: auth
+                key: RABBITMQ_PASSWORD
+          - name: RABBITMQ_URL
+            value: "amqp://$(RABBITMQ_USER):$(RABBITMQ_PASSWORD)@$(RABBITMQ_SERVICE_NAME).$(RABBITMQ_NAMESPACE).svc.cluster.local"
+
+          # SMTP creds
+          - name: SMTP_EMAIL
+            valueFrom:
+              configMapKeyRef:
+                name: auth
+                key: SMTP_EMAIL
+          - name: SMTP_LOGIN
+            valueFrom:
+              configMapKeyRef:
+                name: auth
+                key: SMTP_LOGIN
+          - name: SMTP_HOST
+            valueFrom:
+              configMapKeyRef:
+                name: auth
+                key: SMTP_HOST
+          - name: SMTP_PORT
+            valueFrom:
+              configMapKeyRef:
+                name: auth
+                key: SMTP_PORT
+          - name: SMTP_PASSWORD
+            valueFrom:
+              secretKeyRef:
+                key: SMTP_PASSWORD
+                name: auth
+
+        image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+        imagePullPolicy: "{{ .Values.image.pullPolicy }}"
+        ports:
+        - containerPort: 80
+        envFrom:
+        - configMapRef:
+            name: "{{ .Release.Name }}"
+        - secretRef:
+            name: "{{ .Release.Name }}"
+        resources:
+          requests:
+            cpu: "50m"
+            memory: "150Mi"
+          limits:
+            cpu: "1000m"      # "600m"
+            memory: "1000Mi"  # "512Mi"
+        livenessProbe:
+          httpGet:
+            path: /api/health
+            port: {{ .Values.config.http.port }}
+          initialDelaySeconds: 10
+          periodSeconds: 30
+        readinessProbe:
+          httpGet:
+            path: /api/ready
+            port: {{ .Values.config.http.port }}
+          initialDelaySeconds: 5
+          periodSeconds: 60

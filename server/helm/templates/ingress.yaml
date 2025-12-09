@@ -1,0 +1,62 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: "{{ .Release.Name }}"
+  annotations:
+    nginx.ingress.kubernetes.io/rewrite-target: /api/$2
+spec:
+  ingressClassName: nginx
+  rules:
+  - host: "{{ .Values.ingress.host }}"
+    http:
+      paths:
+      - path: /auth/api(/|$)(.*) 
+        pathType: Prefix
+        backend:
+          service:
+            name: "{{ .Release.Name }}"
+            port:
+              number: 80
+---
+{{- $environment := .Values.environment | default "dev" -}}
+{{- if eq $environment "dev" -}}
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: "{{ .Release.Name }}-docs"
+  annotations:
+    nginx.ingress.kubernetes.io/rewrite-target: /docs/$2
+spec:
+  ingressClassName: nginx
+  rules:
+  - host: "{{ .Values.ingress.host }}"
+    http:
+      paths:
+      - path: /auth/docs(/|$)(.*) 
+        pathType: Prefix
+        backend:
+          service:
+            name: "{{ .Release.Name }}"
+            port:
+              number: 80
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: "{{ .Release.Name }}-openapi"
+  annotations:
+    nginx.ingress.kubernetes.io/rewrite-target: /swagger-json/$2
+spec:
+  ingressClassName: nginx
+  rules:
+  - host: "{{ .Values.ingress.host }}"
+    http:
+      paths:
+      - path: /auth/swagger-json(/|$)(.*) 
+        pathType: Prefix
+        backend:
+          service:
+            name: "{{ .Release.Name }}"
+            port:
+              number: 80
+{{- end }}

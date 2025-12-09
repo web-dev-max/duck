@@ -1,0 +1,16 @@
+.ant-modal-container ul {
+    list-style-type: none;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    font-size: 17px;
+}
+
+.ant-modal-container ul strong {
+    color: rgba(255, 100, 0, 0.8) !important;
+}
+
+.ant-modal-title {
+    color: rgba(255, 100, 0, 0.8) !important;
+    font-size: 25px !important;
+}

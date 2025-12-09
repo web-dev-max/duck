@@ -1,0 +1,95 @@
+namespace: default
+environment: changeThisWithHelm
+image:
+  repository: swr.ru-moscow-1.hc.sbercloud.ru/fishstat/auth
+  tag: stable
+  pullPolicy: IfNotPresent
+
+secrets:
+  rabbit:
+    username: "fishuser"
+    password: changeThisWithHelm
+
+  postgres:
+    username: "auth"
+    password: changeThisWithHelm
+
+  zvonok:
+    api_key: "13c01ce7a99a619b0d6f8c39cf6fedb6"
+    campaign_id: "832327028"
+
+  token:
+    access_key: "testme"
+    refresh_key: "testme"
+
+  sber:
+    sberDbIv: "0sber1id2vector3"
+    sberDbKey: changeThisWithHelm
+    certPass: changeThisWithHelm
+
+  newtel:
+    apiKey: changeThisWithHelm
+    writeKey: changeThisWithHelm
+
+config:
+  postgres:
+    host: changeThisWithHelm
+    port: "5432"
+    db: "auth"
+
+  rabbitmq:
+    service_name: "rabbitmq"
+    namespace: "fishstat"
+    RABBITMQ_AUTH_QUEUE: "auth_queue"
+    RABBITMQ_POST_QUEUE: "post_queue"
+    RABBITMQ_FILE_QUEUE: "files_queue"
+    RABBITMQ_LISTING_QUEUE: "listing_queue"
+    RABBITMQ_SERVICES_QUEUE: "services_queue"
+    RABBITMQ_CHAT_QUEUE: "chat_queue"
+    RABBITMQ_NOTIFICATION_QUEUE: "notification_queue"
+
+  app:
+    env: changeThisWithHelm
+    POST_SERVICE_URL: "http://post.fishstat.svc.cluster.local"
+    LISTING_SERVICE_URL: "http://listing.fishstat.svc.cluster.local"
+    SERVICES_SERVICE_URL: "http://services.fishstat.svc.cluster.local"
+    FILE_SERVICE_URL: "http://files.fishstat.svc.cluster.local"
+  
+  http:
+    port: "9001"
+  
+  smtp:
+    email: "support@fishstat.ru"
+    login: "aje48qluf9emhfu3liem"
+    host: "postbox.cloud.yandex.net"
+    port: "465"
+    url: "https://fishstat.ru"
+
+  zvonok:
+    url: "https://zvonok.com/manager/cabapi_external/api/v1/phones/flashcall/"
+
+  sber:
+    state: "296014df-dbc8-4559-ab32-041bf5064a40"
+    authEndpoint: "/ic/sso/api/v2/oauth/authorize"
+    tokenEndpoint: "/ic/sso/api/v2/oauth/token"
+    informationEndpoint: "/ic/sso/api/v2/oauth/user-info"
+    secretEndpoint: "/ic/sso/api/v1/change-client-secret"
+    responseType: "code"
+    grantType: "authorization_code"
+    scope: "openid%20inn%20orgActualAddress%20orgFullName%20orgJuridicalAddress%20orgKpp%20orgLawForm%20orgLawFormShort%20OrgName%20orgOgrn%20orgOktmo%20terBank%20email%20individualExecutiveAgency%20name%20offerExpirationDate%20phone_number%20userPosition%20accounts"
+    certBaseUrl: "src/common/cert/"
+    sberApiCertName: "tls.pfx"
+    sberCertNames: "sberca_root_ext.crt,sberca_ext.crt,Sberbank_Root_CA.cer,sberapi_root_ca.cer,sberapi_ca.cer"
+    redirectUrl: changeThisWithHelm
+    clientId: changeThisWithHelm
+    updateSecretIds: changeThisWithHelm
+    authBaseUrl: changeThisWithHelm
+    sberApiBaseUrl: changeThisWithHelm
+
+  newtel:
+    timeout: 20
+    baseUrl: "https://api.new-tel.net/"
+    flashCallEndpoint: "call-password/start-password-call"
+
+ingress:
+  host: changeThisWithHelm

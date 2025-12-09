@@ -1,0 +1,66 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: "{{ .Release.Name }}"
+data:
+  APP_NAME: "@fishstat/auth"
+  APP_ENV: "{{ .Values.config.app.env }}"
+
+  HTTP_ENABLE: "true"
+  HTTP_HOST: "0.0.0.0"
+  HTTP_PORT: "{{ .Values.config.http.port }}"
+  HTTP_VERSIONING_ENABLE: "true"
+  HTTP_VERSION: "1"
+  TZ: Europe/Moscow
+  # CORS_ORIGIN: http://localhost:8888
+
+  ACCESS_TOKEN_EXPIRED: "1d"
+  REFRESH_TOKEN_EXPIRED: "7d"
+
+  DB_HOST: "{{ .Values.config.postgres.host }}"
+  DB_PORT: "{{ .Values.config.postgres.port }}"
+  DB_NAME: "{{ .Values.config.postgres.db }}"
+
+  RABBITMQ_SERVICE_NAME: "{{ .Values.config.rabbitmq.service_name }}"
+  RABBITMQ_NAMESPACE: "{{ .Values.config.rabbitmq.namespace }}"
+  RABBITMQ_AUTH_QUEUE: "{{ .Values.config.rabbitmq.RABBITMQ_AUTH_QUEUE }}"
+  RABBITMQ_FILE_QUEUE: "{{ .Values.config.rabbitmq.RABBITMQ_FILE_QUEUE }}"
+  RABBITMQ_LISTING_QUEUE: "{{ .Values.config.rabbitmq.RABBITMQ_LISTING_QUEUE }}"
+  RABBITMQ_SERVICES_QUEUE: "{{ .Values.config.rabbitmq.RABBITMQ_SERVICES_QUEUE }}"
+  RABBITMQ_POST_QUEUE: "{{ .Values.config.rabbitmq.RABBITMQ_POST_QUEUE }}"
+  RABBITMQ_CHAT_QUEUE: "{{ .Values.config.rabbitmq.RABBITMQ_CHAT_QUEUE }}"
+  RABBITMQ_NOTIFICATION_QUEUE: "{{ .Values.config.rabbitmq.RABBITMQ_NOTIFICATION_QUEUE }}"
+
+  ZVONOK_FLASH_CALL_URL: "{{ .Values.config.zvonok.url }}"
+
+  POST_SERVICE_URL: "{{ .Values.config.app.POST_SERVICE_URL }}"
+  LISTING_SERVICE_URL: "{{ .Values.config.app.LISTING_SERVICE_URL }}"
+  SERVICES_SERVICE_URL: "{{ .Values.config.app.SERVICES_SERVICE_URL }}"
+  FILE_SERVICE_URL: "{{ .Values.config.app.FILE_SERVICE_URL }}"
+
+  SMTP_EMAIL: "{{ .Values.config.smtp.email }}"
+  SMTP_LOGIN: "{{ .Values.config.smtp.login }}"
+  SMTP_HOST: "{{ .Values.config.smtp.host }}"
+  SMTP_PORT: "{{ .Values.config.smtp.port }}"
+  SMTP_FRONTEND_URL: "{{ .Values.config.smtp.url }}"
+
+  SBER_STATE: "{{ .Values.config.sber.state }}"
+  SBER_AUTH_ENDPOINT: "{{ .Values.config.sber.authEndpoint }}"
+  SBER_TOKEN_ENDPOINT: "{{ .Values.config.sber.tokenEndpoint }}"
+  SBER_INFORMATION_ENDPOINT: "{{ .Values.config.sber.informationEndpoint }}"
+  SBER_SECRET_ENDPOINT: "{{ .Values.config.sber.secretEndpoint }}"
+  SBER_RESPONSE_TYPE: "{{ .Values.config.sber.responseType }}"
+  SBER_GRANT_TYPE: "{{ .Values.config.sber.grantType }}"
+  SBER_SCOPE: "{{ .Values.config.sber.scope }}"
+  SBER_CERT_BASE_URL: "{{ .Values.config.sber.certBaseUrl }}"
+  SBER_API_CERT_NAME: "{{ .Values.config.sber.sberApiCertName }}"
+  SBER_CERT_NAMES: "{{ .Values.config.sber.sberCertNames }}"
+  SBER_REDIRECT_URL: "{{ .Values.config.sber.redirectUrl }}"
+  SBER_CLIENT_ID: "{{ .Values.config.sber.clientId }}"
+  SBER_UPDATE_SECRET_IDS: "{{ .Values.config.sber.updateSecretIds }}"
+  SBER_AUTH_BASE_URL: "{{ .Values.config.sber.authBaseUrl }}"
+  SBER_API_BASE_URL: "{{ .Values.config.sber.sberApiBaseUrl }}"
+
+  NEWTEL_TIMEOUT: "{{ .Values.config.newtel.timeout }}"
+  NEWTEL_BASE_URL: "{{ .Values.config.newtel.baseUrl }}"
+  NEWTEL_ENDPOINT: "{{ .Values.config.newtel.flashCallEndpoint }}"
