@@ -2,11 +2,10 @@
     max-width: 1600px;
     width: 100%;
     margin: 0 auto;
-    /* background-color: rgba(247, 239, 227, 1); */
     background-color: #ffffff;
     display: flex;
     gap: 80px;
-    padding: 60px 30px;
+    padding: 60px 30px 30px;
 }
 
 .event-block h2 {

@@ -1,0 +1,71 @@
+.ant-form {
+    display: flex !important;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 10px;
+}
+
+.ant-modal {
+    width: 400px !important;
+}
+
+.ant-form-item {
+    width: 100%;
+}
+
+.ant-col-8 {
+    flex: none !important;
+}
+
+.ant-form-item-row {
+    width: 100% !important;
+    flex-direction: column;
+}
+
+.form-custom-antd {
+    margin-bottom: 0;
+}
+
+.ant-form-item .ant-form-item-label {
+        text-align: left !important;
+        padding: 0;
+}
+
+.ant-form-large .ant-form-item .ant-form-item-label>label {
+    height: auto !important;
+}
+
+.ant-form-item-control-input-content .ant-input {
+    height: 40px !important;
+}
+
+.ant-form-item-control {
+    margin: 0 !important;
+}
+
+.ant-form-item-control-input-content button {
+    height: 42px;
+    background-color: rgba(255, 100, 0, 0.8);
+    border-radius: 20px;
+    font-size: 17px;
+    width: 100%;
+}
+
+.more {
+    width: 100%;
+    text-transform: uppercase;
+    margin-top: 20px;
+}
+
+.ant-input:focus,
+.ant-input-affix-wrapper:focus,
+.ant-input-number:focus,
+.ant-input-number-input:focus,
+.ant-picker-input > input:focus,
+.ant-select-selector:focus,
+.ant-input-focused,
+.ant-input-affix-wrapper-focused,
+.ant-input-number-focused {
+  border-color: rgba(255, 100, 0, 0.8) !important;
+  box-shadow: 0 0 0 2px rgba(255, 100, 0, 0.2) !important;
+}

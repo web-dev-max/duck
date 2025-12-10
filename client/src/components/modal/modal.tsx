@@ -16,10 +16,9 @@ export const ModalComponents: FC<IModalComponents> = ({ isModalOpen, onClose }) 
       open={isModalOpen}
       onOk={onClose}
       onCancel={onClose}
-      okText="Прочитал"
+      okText="Закрыть"
       cancelText={null}
       cancelButtonProps={{ style: { display: 'none' } }}
-      closable={false}
     >
       <ul>
         <li><strong><UserOutlined style={{ fontSize: 20, marginRight: 8, }} />Регистрация</strong>: Для начала заполните поля с именем, фамилией, номером телефона и электронной почтой.</li>

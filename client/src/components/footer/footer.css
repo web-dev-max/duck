@@ -2,13 +2,64 @@ footer {
     max-width: 1600px;
     width: 100%;
     margin: 0 auto;
-    background: linear-gradient(to right, rgba(0, 255, 255, 0.2), #4fc3f7);
+    background: linear-gradient(to right, rgba(0, 255, 255, 1), #4fc3f7);
     display: flex;
     align-items: center;
-    padding: 50px 30px;
+    justify-content: space-between;
+    padding: 20px 30px;
+    border-bottom-left-radius: 20px;
+    border-bottom-right-radius: 20px;
 }
 
 footer img {
     width: 300px;
     object-fit: cover;
+}
+
+.contact, .phone {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+footer h2 {
+    color: rgba(19, 20, 29, .6);
+    font-size: 15px;
+    font-weight: 500;
+    line-height: 100%;
+}
+
+.contact-block {
+    display: flex;
+    align-items: center;
+    gap: 50px;
+}
+
+footer a {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    color: rgba(19, 20, 29, .6);
+    transition: 0.3s;
+    font-size: 14px;
+}
+
+footer a:hover {
+    color: #ffffff;
+}
+
+.ant-divider {
+    margin-bottom: 0 !important;
+}
+
+.footer-bottom {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 10px;
+}
+
+.footer-bottom p {
+    font-size: 15px;
+    color: rgba(255, 100, 0, 0.5);
 }
