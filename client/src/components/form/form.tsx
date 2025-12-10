@@ -1,5 +1,5 @@
 import type { FormProps, InputNumberProps } from "antd";
-import { Button, Checkbox, Form, Input, InputNumber, Modal } from 'antd';
+import { Button, Checkbox, Form, Input, InputNumber, message, Modal } from 'antd';
 import { MaskedInput } from 'antd-mask-input';
 import { type FC } from "react";
 
@@ -23,12 +23,41 @@ interface IFormComponents {
 }
 
 const FormComponents: FC<IFormComponents> = ({ isFormOpen, onClose, duckCount, onChange, totalPrice, onOpenModal }) => {
-  const onFinish: FormProps<FieldType>['onFinish'] = (values) => {
+
+  const onFinish: FormProps<FieldType>['onFinish'] = async (values) => {
     const cleanPhone = values.phone.replace(/\D/g, '');
     const formattedPhone = `+7${cleanPhone.slice(-10)}`;
     
-    console.log('Success:', { ...values, ducks: duckCount, phone: formattedPhone, agreed: values.agreed });
-    // Отправка на сервер
+    const payload = {
+      name: values.name,
+      email: values.email,
+      phone: formattedPhone,
+      ducks: duckCount,
+      agreed: values.agreed,
+    };
+
+    try {
+      const response = await fetch('http://localhost:3000/v1/users', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(payload),
+      });
+
+      if (!response.ok && response.status === 409) {
+        throw new Error('Данный пользователь уже зарегистрирован');
+      }
+
+      message.success('Заявка отправлена! Переходим к оплате...');
+
+      // if (onClose) onClose();
+
+    } catch (error) {
+      console.error('Ошибка при отправке данных:', error);
+      const msg = error instanceof Error ? error.message : 'Неизвестная ошибка';
+      message.error(msg);
+    }
   };
 
   const onFinishFailed: FormProps<FieldType>['onFinishFailed'] = (errorInfo) => {

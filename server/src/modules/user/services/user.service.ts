@@ -53,4 +53,22 @@ export class UserService {
       where: { id },
     });
   }
+
+  async getAdminView() {
+    const users = await this.prisma.user.findMany({
+      include: {
+        duckAssignments: {
+          select: { id: true },
+          orderBy: { id: 'asc' },
+        },
+      },
+      orderBy: { createdAt: 'desc' },
+    });
+
+    return users.map(user => ({
+      ...user,
+      duckNumbers: user.duckAssignments.map(d => d.id).join(', '),
+      totalDucks: user.duckAssignments.length,
+    }));
+  }
 }

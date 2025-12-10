@@ -54,6 +54,8 @@ footer a:hover {
 
 .footer-bottom {
     display: flex;
+    flex-direction: column;
+    gap: 20px;
     align-items: center;
     justify-content: center;
     padding: 10px;
@@ -62,4 +64,10 @@ footer a:hover {
 .footer-bottom p {
     font-size: 15px;
     color: rgba(255, 100, 0, 0.5);
+}
+
+.footer-bottom button {
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
 }

@@ -1,6 +1,12 @@
+import { useState } from 'react';
 import './footer.css';
+import Admin from '../admin/admin';
 
 const Footer = () => {
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const toggleOpenModal = () => {
+    setIsModalOpen((prev) => !prev);
+  };
   return (
     <>
       <footer>
@@ -31,7 +37,9 @@ const Footer = () => {
       </footer>
       <div className="footer-bottom">
         <p>© 2025, HappyDuck. Все права защищены.</p>
+        <button onClick={toggleOpenModal}>admin</button>
       </div>
+      <Admin isModalOpen={isModalOpen} onClose={toggleOpenModal} />
     </>
   )
 };
