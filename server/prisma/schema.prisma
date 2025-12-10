@@ -11,11 +11,19 @@ datasource db {
 }
 
 model User {
-  id        Int      @id @default(autoincrement())
+  id        String      @id @default(uuid())
   name      String
   email     String   @unique
   phone     String?
   paid      Boolean  @default(false)
   ducks     Int
   createdAt DateTime @default(now())
+  duckAssignments Duck[]
+}
+
+model Duck {
+  id        Int      @id @default(autoincrement())
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  assignedAt DateTime @default(now())
 }
