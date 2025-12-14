@@ -3,10 +3,14 @@ import { PrismaService } from 'src/common/prisma.service';
 import { CreateUserDto } from '../dto/create-user.dto';
 import { User } from '@prisma/client';
 import { PrismaClientKnownRequestError } from '@prisma/client/runtime/library';
+import { SmsService } from 'src/modules/sms/services/sms.service';
 
 @Injectable()
 export class UserService {
-  constructor(private prisma: PrismaService) {}
+  constructor(
+    private prisma: PrismaService,
+    private smsService: SmsService,
+  ) {}
 
   async create(createUserDto: CreateUserDto): Promise<User> {
     return this.prisma.$transaction(async (tx) => {
@@ -70,5 +74,23 @@ export class UserService {
       duckNumbers: user.duckAssignments.map(d => d.id).join(', '),
       totalDucks: user.duckAssignments.length,
     }));
+  }
+
+  async handlePaymentSuccess(userId: string) {
+    const user = await this.findOne(userId);
+    if (!user) throw new Error('Пользователь не найден');
+
+    // Генерируем случайный проверочный код
+    const verificationCode = Math.floor(Math.random() * 8999 + 1000).toString(); // Четырехзначный код
+
+    // Отправляем SMS с кодом
+    await this.smsService.sendVerificationCode(user.phone, verificationCode);
+
+    await this.prisma.user.update({
+      where: { id: userId },
+      data: { verificationCode },
+    });
+
+    return { success: true };
   }
 }
