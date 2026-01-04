@@ -21,9 +21,9 @@ const Header = () => {
       <nav>
         <img src="/images/duck.png" />
         <ul>
-          <li><a href="#">О нас</a></li>
-          <li><a href="#">Правила мероприятия</a></li>
-          <li><a href="#" className="ticket">Билеты</a></li>
+          <li><a href="/">О нас</a></li>
+          <li><a href="/">Правила мероприятия</a></li>
+          <li><a href="/" className="ticket">Билеты</a></li>
         </ul>
         <Button type="primary">Остались вопросы?</Button>
       </nav>

@@ -69,13 +69,7 @@ const Admin: FC<IAdmin> = ({ isModalOpen, onClose }) => {
   };
 
   const filteredData = data.filter(user => {
-    const searchLower = searchText.toLowerCase();
-    return (
-        user.name.toLowerCase().includes(searchLower) ||
-        user.email.toLowerCase().includes(searchLower) ||
-        (user.phone && user.phone.includes(searchText)) ||
-        user.duckNumbers.includes(searchText)
-    );
+    return user.duckNumbers.includes(searchText);
   });
 
   const columns = [

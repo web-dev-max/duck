@@ -160,7 +160,7 @@ const FormComponents: FC<IFormComponents> = ({ isFormOpen, onClose, duckCount, o
         >
           <Checkbox>
             <span>
-              Я ознакомлен с правилами мероприятия и даю согласие на обработку персональных данных
+              Я ознакомлен с правилами мероприятия, так же с <a href="/garantii" target="_blank">гарантийными условиями</a> и даю согласие на обработку <a href="/privacy-policy" target="_blank">персональных данных</a>
             </span>
           </Checkbox>
         </Form.Item>

@@ -50,7 +50,7 @@ const EventComponent = () => {
             </div>
             <div className="event-action">
               <Button type="primary" onClick={toggleOpenForm}>Регистрация</Button>
-              <span className="text" onClick={toggleOpenModal}>Правила мероприятия</span>
+              {/* <span className="text" onClick={toggleOpenModal}>Правила мероприятия</span> */}
             </div>
           </div>
         </div>

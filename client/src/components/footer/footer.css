@@ -29,10 +29,24 @@ footer h2 {
     line-height: 100%;
 }
 
+footer h3 {
+    color: rgba(19, 20, 29, .6);
+    font-size: 14px;
+    font-weight: 500;
+    line-height: 100%;
+    margin-top: 20px;
+}
+
 .contact-block {
     display: flex;
     align-items: center;
     gap: 50px;
+}
+
+.contact-block p {
+    font-size: 14px;
+    color: rgba(19, 20, 29, .6);
+    line-height: 130%;
 }
 
 footer a {
@@ -70,4 +84,8 @@ footer a:hover {
     background-color: transparent;
     border: none;
     cursor: pointer;
+}
+
+.contact-item {
+    text-transform: uppercase;
 }

@@ -1,0 +1,57 @@
+.garantii {
+  max-width: 1600px;
+  width: 100%;
+  margin: 0 auto;
+  background-color: #ffffff;
+  padding: 60px 30px 30px;
+  color: rgba(19, 20, 29, 0.9);
+  font-size: 18px;
+  line-height: 1.6;
+}
+
+.garantii h1 {
+  font-size: 28px;
+  font-weight: 600;
+  margin-bottom: 40px;
+  color: rgba(19, 20, 29, 0.9);
+}
+
+.garantii h2 {
+  font-size: 23px;
+  font-weight: 500;
+  margin-top: 30px;
+  margin-bottom: 15px;
+  color: rgba(19, 20, 29, 0.9);
+}
+
+.garantii p {
+  margin: 0 0 15px;
+  font-size: 18px;
+}
+
+.garantii ul {
+  margin: 0 0 15px 20px;
+  padding: 0;
+  list-style-type: disc;
+}
+
+.garantii ul li {
+  margin-bottom: 8px;
+}
+
+.garantii a {
+  color: rgba(255, 100, 0, 1);
+  text-decoration: none;
+  font-weight: 500;
+}
+
+.garantii a:hover {
+  text-decoration: underline;
+}
+
+.garantii .last-update {
+  font-size: 14px;
+  color: rgba(95, 95, 95, 0.6);
+  margin-top: 40px;
+  font-style: italic;
+}

@@ -1,0 +1,45 @@
+/* src/components/politica/politica.css */
+.politica {
+  max-width: 1600px;
+  width: 100%;
+  margin: 0 auto;
+  background-color: #ffffff;
+  padding: 60px 30px 30px;
+  color: rgba(19, 20, 29, 0.9);
+  font-size: 18px;
+  line-height: 1.6;
+}
+
+.politica h1 {
+  font-size: 28px;
+  font-weight: 600;
+  margin-bottom: 40px;
+  color: rgba(19, 20, 29, 0.9);
+}
+
+.politica h2 {
+  font-size: 23px;
+  font-weight: 500;
+  margin-top: 30px;
+  margin-bottom: 15px;
+  color: rgba(19, 20, 29, 0.9);
+}
+
+.politica p {
+  margin: 0 0 15px;
+  font-size: 18px;
+}
+
+.politica a {
+  color: rgba(255, 100, 0, 1);
+  text-decoration: none;
+  font-weight: 500;
+}
+
+.politica a:hover {
+  text-decoration: underline;
+}
+
+.politica section {
+  margin-bottom: 30px;
+}
