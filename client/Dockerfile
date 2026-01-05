@@ -7,4 +7,3 @@ RUN npm run build
 
 FROM alpine:latest
 WORKDIR /app
-COPY --from=builder /app/build ./build

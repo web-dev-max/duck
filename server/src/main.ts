@@ -30,7 +30,6 @@ async function bootstrap() {
 
         // Retrieve configuration values
         const port: number = configService.get<number>('app.http.port', 3000);
-        const host: string = configService.get<string>('app.http.host', 'localhost');
         const versioningPrefix: string = configService.get<string>('app.versioning.prefix', 'v');
         const version: string = configService.get<string>('app.versioning.version', '1');
         const versionEnable: boolean = configService.get<boolean>('app.versioning.enable', true);
@@ -47,10 +46,7 @@ async function bootstrap() {
             );
         }
 
-        await app.listen(port, host);
-        logger.log(
-            `🚀 ${configService.get('app.name')} service started successfully on ${host}:${port}`,
-        );
+        await app.listen(port, '0.0.0.0');
     } catch (error) {
         logger.error('❌ Error during application bootstrap', error.stack);
         process.exit(1); // Exit with failure code

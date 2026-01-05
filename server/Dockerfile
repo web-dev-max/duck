@@ -18,9 +18,9 @@ COPY package.json ./
 RUN yarn install --production=true
 
 COPY --from=builder /app/dist ./dist
+COPY --from=builder /app/prisma ./prisma
 COPY --from=builder /app/node_modules/.prisma ./node_modules/.prisma
 
-# 🔥 КОПИРУЕМ .env В ОБРАЗ!
 COPY .env .env
 
 CMD ["node", "dist/main"]
