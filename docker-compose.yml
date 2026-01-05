@@ -31,10 +31,9 @@ services:
       - "443:443"
     volumes:
       - ./nginx.conf:/etc/nginx/nginx.conf
-      - client_build:/usr/share/nginx/html:ro
+      - ./client/build:/usr/share/nginx/html:ro
     depends_on:
       - server
 
 volumes:
   postgres_data:
-  client_build:
