@@ -1,22 +1,11 @@
-FROM node:22-alpine
-WORKDIR /usr/src/app
-
-RUN apk add curl
-
+# client/Dockerfile
+FROM node:22-alpine AS builder
+WORKDIR /app
 COPY package*.json ./
-
-RUN npm install --force
-
+RUN npm install
 COPY . .
-
-#RUN npm run start:dev
-#ENV NODE_ENV=production
-
-ENV NODE_ENV=production
-ENV PORT=3000
-EXPOSE 3000
-
 RUN npm run build
 
-ENV NODE_ENV=production
-CMD ["npm", "run", "start"]
+# Final stage: копируем только build
+FROM scratch
+COPY --from=builder /app/build /build
