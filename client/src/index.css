@@ -47,7 +47,8 @@ body {
 
 @media (max-width: 480px) {
   .intro {
-    height: 380px !important;
+    height: 300px !important;
+    background-attachment: unset !important;
   }
     .form-custom {
         align-items: center !important;
