@@ -12,7 +12,7 @@ COPY . .
 RUN yarn build
 
 # Final stage
-FROM node:22-alpine
+FROM node:22
 WORKDIR /app
 COPY package.json ./
 RUN yarn install --production=true
