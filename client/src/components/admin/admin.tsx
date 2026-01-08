@@ -56,7 +56,7 @@ const Admin: FC<IAdmin> = ({ isModalOpen, onClose }) => {
   const fetchUserData = async () => {
     setLoading(true);
     try {
-      const response = await fetch('http://heppyduck.ru/v1/users/admin');
+      const response = await fetch('https://heppyduck.ru/v1/users/admin');
       console.log(response);
       if (!response.ok) throw new Error('Ошибка загрузки');
       const users = await response.json();
