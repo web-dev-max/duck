@@ -49,6 +49,10 @@ body {
 }
 
 @media (max-width: 480px) {
+
+  .about {
+    padding: 30px 10px !important;
+  }
   .intro {
     height: 300px !important;
     background-attachment: unset !important;
