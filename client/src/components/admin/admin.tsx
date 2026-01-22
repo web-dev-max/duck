@@ -1,6 +1,5 @@
-import { Modal, Input, Button, Space, Table, Spin } from "antd";
+import { Input, Button, Space, Table, Spin } from "antd";
 import { useState } from "react";
-import type { FC } from "react";
 
 import './admin.css';
 
@@ -14,12 +13,7 @@ interface UserRow {
   duckNumbers: string;
 }
 
-interface IAdmin {
-  isModalOpen: boolean;
-  onClose: () => void;
-}
-
-const Admin: FC<IAdmin> = ({ isModalOpen, onClose }) => {
+const Admin = () => {
   const [password, setPassword] = useState("");
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [error, setError] = useState(false);
@@ -45,18 +39,10 @@ const Admin: FC<IAdmin> = ({ isModalOpen, onClose }) => {
     }
   };
 
-  const handleClose = () => {
-    setIsAuthenticated(false);
-    setPassword("");
-    setError(false);
-    setData([]);
-    onClose();
-  };
-
   const fetchUserData = async () => {
     setLoading(true);
     try {
-      const response = await fetch('https://heppyduck.ru/v1/users/admin');
+      const response = await fetch('http://localhost:3000/v1/users/admin');
       console.log(response);
       if (!response.ok) throw new Error('Ошибка загрузки');
       const users = await response.json();
@@ -77,20 +63,13 @@ const Admin: FC<IAdmin> = ({ isModalOpen, onClose }) => {
     { title: 'Email', dataIndex: 'email', key: 'email' },
     { title: 'Телефон', dataIndex: 'phone', key: 'phone' },
     { title: 'Оплачено', dataIndex: 'paid', key: 'paid', render: (paid: boolean) => paid ? 'Да' : 'Нет' },
-    { title: 'Уток', dataIndex: 'totalDucks', key: 'totalDucks' },
+    { title: 'Номер заказа', dataIndex: 'verificationCode', key: 'verificationCode' },
+    { title: 'Кол-во уток', dataIndex: 'totalDucks', key: 'totalDucks' },
     { title: 'Номера уток', dataIndex: 'duckNumbers', key: 'duckNumbers' },
   ];
 
   return (
-    <Modal
-      title="Админ-панель"
-      open={isModalOpen}
-      onCancel={handleClose}
-      footer={null}
-      closable={true}
-      width={1000}
-      className="admin-modal"
-    >
+    <div className="admin">
       {!isAuthenticated ? (
         <Space direction="vertical" style={{ width: "100%" }}>
           <Input
@@ -127,7 +106,7 @@ const Admin: FC<IAdmin> = ({ isModalOpen, onClose }) => {
           )}
         </div>
       )}
-    </Modal>
+    </div>
   );
 };
 

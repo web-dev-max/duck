@@ -1,12 +1,6 @@
-import { useState } from 'react';
 import './footer.css';
-import Admin from '../admin/admin';
 
 const Footer = () => {
-  const [isModalOpen, setIsModalOpen] = useState(false);
-  const toggleOpenModal = () => {
-    setIsModalOpen((prev) => !prev);
-  };
   return (
     <>
       <footer>
@@ -56,12 +50,11 @@ const Footer = () => {
             </a>
           </div>
         </div>
-        <img src="/images/footer-duck.png" onClick={toggleOpenModal} />
+        <img src="/images/footer-duck.png" />
       </footer>
       <div className="footer-bottom">
         <p>© 2025, HappyDuck. Все права защищены.</p>
       </div>
-      <Admin isModalOpen={isModalOpen} onClose={toggleOpenModal} />
     </>
   )
 };

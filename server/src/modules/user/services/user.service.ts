@@ -22,6 +22,7 @@ export class UserService {
             phone: createUserDto.phone,
             paid: createUserDto.paid ?? false,
             ducks: createUserDto.ducks,
+            verificationCode: createUserDto.verificationCode,
           },
         });
 
@@ -36,7 +37,19 @@ export class UserService {
           await Promise.all(duckPromises);
         }
 
-        return user;
+        const duckAssignments = await tx.duck.findMany({
+          where: { userId: user.id },
+          select: { id: true },
+          orderBy: { id: 'asc' },
+        });
+
+        const duckNumbers = duckAssignments.map(d => d.id).join(', ');
+
+        return {
+          ...user,
+          duckNumbers,
+          totalDucks: duckAssignments.length,
+        };
       } catch (error) {
         if (error instanceof PrismaClientKnownRequestError) {
           if (error.code === 'P2002') {
@@ -74,23 +87,5 @@ export class UserService {
       duckNumbers: user.duckAssignments.map(d => d.id).join(', '),
       totalDucks: user.duckAssignments.length,
     }));
-  }
-
-  async handlePaymentSuccess(userId: string) {
-    const user = await this.findOne(userId);
-    if (!user) throw new Error('Пользователь не найден');
-
-    // Генерируем случайный проверочный код
-    const verificationCode = Math.floor(Math.random() * 8999 + 1000).toString(); // Четырехзначный код
-
-    // Отправляем SMS с кодом
-    await this.smsService.sendVerificationCode(user.phone, verificationCode);
-
-    await this.prisma.user.update({
-      where: { id: userId },
-      data: { verificationCode },
-    });
-
-    return { success: true };
   }
 }

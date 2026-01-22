@@ -27,17 +27,18 @@ const FormComponents: FC<IFormComponents> = ({ isFormOpen, onClose, duckCount, o
   const onFinish: FormProps<FieldType>['onFinish'] = async (values) => {
     const cleanPhone = values.phone.replace(/\D/g, '');
     const formattedPhone = `+7${cleanPhone.slice(-10)}`;
-    
+    const orderid = Math.floor(100000 + Math.random() * 900000).toString();
     const payload = {
       name: values.name,
       email: values.email,
       phone: formattedPhone,
       ducks: duckCount,
       agreed: values.agreed,
+      verificationCode: orderid,
     };
 
     try {
-      const response = await fetch('https://heppyduck.ru/v1/users', {
+      const response = await fetch('http://localhost:3000/v1/users', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -45,14 +46,55 @@ const FormComponents: FC<IFormComponents> = ({ isFormOpen, onClose, duckCount, o
         body: JSON.stringify(payload),
       });
 
-      if (!response.ok && response.status === 409) {
-        throw new Error('Данный пользователь уже зарегистрирован');
+      if (!response.ok) {
+        if (response.status === 409) {
+          throw new Error('Данный пользователь уже зарегистрирован');
+        } else {
+          throw new Error('Ошибка при регистрации');
+        }
       }
-
+      const userData = await response.json();
+      const { duckNumbers, verificationCode } = userData;
       message.success('Заявка отправлена! Переходим к оплате...');
 
-      // if (onClose) onClose();
+      const service_name = "Участие в мероприятии «Heppy Duck»";
+      const cart = JSON.stringify([
+        {
+          name: `Билет на мероприятие: № ${verificationCode}. Номера ваших уток: ${duckNumbers}`,
+          quantity: duckCount,
+          price: Math.round(totalPrice / duckCount),
+          amount: totalPrice,
+          payment_method: "full_payment",
+          payment_object: "service",
+          vat: "none"
+        }
+      ]);
 
+      const form = document.createElement('form');
+      form.method = 'POST';
+      form.action = 'https://heppyduck.server.paykeeper.ru/create/';
+      form.style.display = 'none';
+
+      const fields = {
+        sum: totalPrice.toString(),
+        orderid,
+        clientid: values.name,
+        service_name,
+        client_email: values.email,
+        client_phone: formattedPhone,
+        cart,
+      };
+
+      for (const [name, value] of Object.entries(fields)) {
+        const input = document.createElement('input');
+        input.type = 'hidden';
+        input.name = name;
+        input.value = value;
+        form.appendChild(input);
+      }
+
+      document.body.appendChild(form);
+      form.submit();
     } catch (error) {
       console.error('Ошибка при отправке данных:', error);
       const msg = error instanceof Error ? error.message : 'Неизвестная ошибка';

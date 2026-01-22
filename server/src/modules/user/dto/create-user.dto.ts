@@ -17,4 +17,7 @@ export class CreateUserDto {
   @IsInt()
   @Min(0)
   ducks: number;
+
+  @IsString()
+  verificationCode: string;
 }
