@@ -5,14 +5,14 @@ import { ConfigModule } from '@nestjs/config';
 import { UserModule } from 'src/modules/user/user.module';
 import { AppController } from './app.controller';
 import { PrismaModule } from 'src/common/prisma.module';
-import { SmsModule } from 'src/modules/sms/sms.module';
+import { PaykeeperModule } from 'src/modules/paykeeper/paykeeper.module';
 
 @Module({
     imports: [
         ConfigModule.forRoot({ isGlobal: true }),
         TerminusModule, 
         UserModule, 
-        SmsModule,
+        PaykeeperModule,
         PrismaModule
     ],
     controllers: [AppController],

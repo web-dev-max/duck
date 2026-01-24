@@ -16,8 +16,8 @@ model User {
   email     String   @unique
   phone     String?
   paid      Boolean  @default(false)
-  ducks     Int
-  verificationCode String?
+  ducks     Int 
+  verificationCode String @unique
   createdAt DateTime @default(now())
   duckAssignments Duck[]
 }

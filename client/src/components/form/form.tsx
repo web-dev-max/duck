@@ -57,7 +57,6 @@ const FormComponents: FC<IFormComponents> = ({ isFormOpen, onClose, duckCount, o
       const { duckNumbers, verificationCode } = userData;
       message.success('Заявка отправлена! Переходим к оплате...');
 
-      const service_name = "Участие в мероприятии «Heppy Duck»";
       const cart = JSON.stringify([
         {
           name: `Билет на мероприятие: № ${verificationCode}. Номера ваших уток: ${duckNumbers}`,
@@ -79,7 +78,7 @@ const FormComponents: FC<IFormComponents> = ({ isFormOpen, onClose, duckCount, o
         sum: totalPrice.toString(),
         orderid,
         clientid: values.name,
-        service_name,
+        service_name: "Участие в мероприятии «Heppy Duck»",
         client_email: values.email,
         client_phone: formattedPhone,
         cart,

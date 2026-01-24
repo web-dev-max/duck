@@ -13,10 +13,6 @@ async function bootstrap() {
         const app = await NestFactory.create(AppModule, new ExpressAdapter(express()));
         const configService = app.get(ConfigService);
 
-        // Enable cookie parser
-        app.use(cookieParser());
-        logger.log('✅ Cookie parser enabled');
-
         // Configure CORS
         const corsOrigin = configService.get<string>('app.corsOrigin') || '*';
         const allowedOrigins = [corsOrigin, 'http://localhost:5173', '*'];

@@ -19,11 +19,11 @@ const Header = () => {
   return (
     <header className={isScrolled ? 'scrolled' : ''}>
       <nav>
-        <img src="/images/duck.png" />
+        <a href="/"><img src="/images/duck.png" /></a>
         <ul>
-          <li><a href="#contact">О нас</a></li>
-          <li className="media-li"><a href="#video">Мероприятие</a></li>
-          <li><a href="#event" className="ticket">Билеты</a></li>
+          <li><a href="/#contact">О нас</a></li>
+          <li className="media-li"><a href="/#video">Мероприятие</a></li>
+          <li><a href="/#event" className="ticket">Билеты</a></li>
         </ul>
         <a href='https://t.me/Heppyduck2026' target="_blank" className="contact-item"><Button type="primary">Остались вопросы?</Button></a>
       </nav>
