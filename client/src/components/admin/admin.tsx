@@ -11,6 +11,7 @@ interface UserRow {
   paid: boolean;
   totalDucks: number;
   duckNumbers: string;
+  verificationCode: string;
 }
 
 const Admin = () => {
@@ -55,7 +56,14 @@ const Admin = () => {
   };
 
   const filteredData = data.filter(user => {
-    return user.duckNumbers.includes(searchText);
+    const searchLower = searchText.toLowerCase();
+    
+    return (
+      user.name.toLowerCase().includes(searchLower) ||
+      user.email.toLowerCase().includes(searchLower) ||
+      user.duckNumbers.toLowerCase().includes(searchLower) ||
+      user.verificationCode.toLowerCase().includes(searchLower)
+    );
   });
 
   const columns = [
