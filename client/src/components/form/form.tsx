@@ -38,7 +38,7 @@ const FormComponents: FC<IFormComponents> = ({ isFormOpen, onClose, duckCount, o
     };
 
     try {
-      const response = await fetch('http://localhost:3000/v1/users', {
+      const response = await fetch('https://heppyduck.ru/v1/users', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
