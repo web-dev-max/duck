@@ -25,6 +25,7 @@ model User {
 model Duck {
   id        Int      @id @default(autoincrement())
   userId    String
+  number    Int      @unique
   user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
   assignedAt DateTime @default(now())
 }

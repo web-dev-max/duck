@@ -1,15 +1,13 @@
-import { Injectable, ConflictException } from '@nestjs/common';
+import { Injectable, ConflictException, BadRequestException } from '@nestjs/common';
 import { PrismaService } from 'src/common/prisma.service';
 import { CreateUserDto } from '../dto/create-user.dto';
 import { User } from '@prisma/client';
 
 @Injectable()
 export class UserService {
-  constructor(
-    private prisma: PrismaService,
-  ) {}
+  constructor(private prisma: PrismaService) {}
 
-  async create(createUserDto: CreateUserDto): Promise<User> {
+  async create(createUserDto: CreateUserDto): Promise<any> {
     return this.prisma.$transaction(async (tx) => {
       let user: User | null;
 
@@ -49,24 +47,57 @@ export class UserService {
         });
       }
 
-      if (createUserDto.ducks > 0) {
-        const duckPromises = Array.from({ length: createUserDto.ducks }, () =>
-          tx.duck.create({
-            data: {
-              userId: user!.id,
-            },
-          }),
+      const requestedDucks = createUserDto.ducks;
+
+      if (requestedDucks > 0) {
+        const totalUsed = await tx.duck.count();
+        const MAX_DUCKS = 9999;
+
+        if (totalUsed + requestedDucks > MAX_DUCKS) {
+          throw new BadRequestException(
+            `Недостаточно доступных номеров уток. Осталось: ${MAX_DUCKS - totalUsed}`
+          );
+        }
+
+        const usedNumbers = await tx.duck.findMany({
+          select: { number: true },
+        });
+        const usedSet = new Set(usedNumbers.map(d => d.number));
+
+        const availableNumbers: number[] = [];
+        for (let i = 1; i <= MAX_DUCKS; i++) {
+          if (!usedSet.has(i)) {
+            availableNumbers.push(i);
+          }
+        }
+
+        const shuffled = availableNumbers
+          .sort(() => 0.5 - Math.random())
+          .slice(0, requestedDucks);
+
+        if (shuffled.length < requestedDucks) {
+          throw new BadRequestException('Недостаточно свободных номеров (внутренняя ошибка)');
+        }
+
+        await Promise.all(
+          shuffled.map(number =>
+            tx.duck.create({
+              data: {
+                userId: user!.id,
+                number,
+              },
+            })
+          )
         );
-        await Promise.all(duckPromises);
       }
 
       const duckAssignments = await tx.duck.findMany({
         where: { userId: user.id },
-        select: { id: true },
-        orderBy: { id: 'asc' },
+        select: { number: true },
+        orderBy: { number: 'asc' },
       });
 
-      const duckNumbers = duckAssignments.map(d => d.id).join(', ');
+      const duckNumbers = duckAssignments.map(d => d.number).join(', ');
 
       return {
         ...user,
@@ -90,8 +121,8 @@ export class UserService {
     const users = await this.prisma.user.findMany({
       include: {
         duckAssignments: {
-          select: { id: true },
-          orderBy: { id: 'asc' },
+          select: { number: true },
+          orderBy: { number: 'asc' },
         },
       },
       orderBy: { createdAt: 'desc' },
@@ -99,7 +130,7 @@ export class UserService {
 
     return users.map(user => ({
       ...user,
-      duckNumbers: user.duckAssignments.map(d => d.id).join(', '),
+      duckNumbers: user.duckAssignments.map(d => d.number).join(', '),
       totalDucks: user.duckAssignments.length,
     }));
   }

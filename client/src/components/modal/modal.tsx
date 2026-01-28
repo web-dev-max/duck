@@ -21,11 +21,27 @@ export const ModalComponents: FC<IModalComponents> = ({ isModalOpen, onClose }) 
       cancelButtonProps={{ style: { display: 'none' } }}
     >
       <ul>
-        <li><strong><UserOutlined style={{ fontSize: 20, marginRight: 8, }} />Регистрация</strong>: Для начала заполните поля с именем, фамилией, номером телефона и электронной почтой.</li>
-        <li><strong><ShoppingCartOutlined style={{ fontSize: 20, marginRight: 8, }} />Выбор уток</strong>: Укажите количество уток, которые хотите арендовать.</li>
-        <li><strong><CreditCardOutlined style={{ fontSize: 20, marginRight: 8, }} />Оплата</strong>: После выбора уток нажмите "Продолжить" и произведите оплату.</li>
-        <li><strong><MessageOutlined style={{ fontSize: 20, marginRight: 8, }} />Получение кода</strong>: После успешной оплаты вам придёт SMS с индивидуальным кодом и чеком.</li>
-        <li><strong><BarcodeOutlined style={{ fontSize: 20, marginRight: 8, }} />Код</strong> — это номер вашей утки и билет на праздник. Пожалуйста, не теряйте его.</li>
+        <li>
+          <strong><UserOutlined style={{ fontSize: 20, marginRight: 8 }} />Регистрация</strong>: 
+          Заполните имя, номер телефона и электронную почту. На один email возможна только одна регистрация.
+        </li>
+        <li>
+          <strong><ShoppingCartOutlined style={{ fontSize: 20, marginRight: 8 }} />Выбор уток</strong>: 
+          Укажите количество уток, которые хотите арендовать.
+        </li>
+        <li>
+          <strong><CreditCardOutlined style={{ fontSize: 20, marginRight: 8 }} />Оплата</strong>: 
+          После выбора уток нажмите «Продолжить» и произведите оплату. 
+          <strong> Оплата взимается один раз — повторная регистрация и оплата с одного аккаунта невозможны.</strong>
+        </li>
+        <li>
+          <strong><MessageOutlined style={{ fontSize: 20, marginRight: 8 }} />Получение чека</strong>: 
+          После успешной оплаты вы получите чек на указанную Вами почту с номером заказа и номерами уток.
+        </li>
+        <li>
+          <strong><BarcodeOutlined style={{ fontSize: 20, marginRight: 8 }} />Номер заказа и номера уток</strong> — 
+          это Ваши персональные номера. Пожалуйста, сохраните их.
+        </li>
       </ul>
     </Modal>
   );
