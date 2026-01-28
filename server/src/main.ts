@@ -2,7 +2,6 @@ import { Logger, VersioningType } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { NestFactory } from '@nestjs/core';
 import { ExpressAdapter } from '@nestjs/platform-express';
-import cookieParser from 'cookie-parser';
 import express from 'express';
 
 import { AppModule } from './app/app.module';

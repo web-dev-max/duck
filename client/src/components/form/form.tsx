@@ -78,7 +78,7 @@ const FormComponents: FC<IFormComponents> = ({ isFormOpen, onClose, duckCount, o
         sum: totalPrice.toString(),
         orderid,
         clientid: values.name,
-        service_name: "Участие в мероприятии «Heppy Duck»",
+        service_name: "Участие в мероприятии «Happy Duck»",
         client_email: values.email,
         client_phone: formattedPhone,
         cart,

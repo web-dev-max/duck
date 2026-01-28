@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Post, Param, ParseUUIDPipe } from '@nestjs/common';
+import { Body, Controller, Get, Post } from '@nestjs/common';
 import { User } from '@prisma/client';
 
 import { CreateUserDto } from '../dto/create-user.dto';

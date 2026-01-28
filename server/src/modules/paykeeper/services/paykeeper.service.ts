@@ -34,39 +34,53 @@ export class PaykeeperService {
   async process(payload: any): Promise<string> {
     const { id, sum, orderid, clientid, key } = payload;
 
-    // 1. Проверка подписи
     const formattedSum = parseFloat(sum).toFixed(2);
     const expectedKey = crypto
       .createHash('md5')
       .update(`${id}${formattedSum}${clientid || ''}${orderid || ''}${this.secretSeed}`)
       .digest('hex');
 
-    if (key !== expectedKey) return 'ERROR';
+    if (key !== expectedKey) {
+      console.error('Signature mismatch:', { key, expectedKey });
+      return 'ERROR';
+    }
 
-    if (!orderid) return 'ERROR';
+    if (!orderid) {
+      console.error('Missing orderid');
+      return 'ERROR';
+    }
 
     const user = await this.prisma.user.findUnique({
       where: { verificationCode: orderid },
     });
 
-    if (!user) return 'ERROR';
-
-    // 3. Если уже оплачено — подтверждаем, но не обновляем
-    if (user.paid) {
-      return this.buildOkResponse(id);
-    }
-
-    // 4. Проверяем сумму: должна быть = ducks * DUCK_PRICE
-    const expectedSum = user.ducks * this.duckPrice;
-    if (Math.abs(parseFloat(formattedSum) - expectedSum) > 0.01) {
+    if (!user) {
+      console.error('User not found with verificationCode:', orderid);
       return 'ERROR';
     }
 
-    // 5. Устанавливаем paid = true
-    await this.prisma.user.update({
-      where: { id: user.id },
-      data: { paid: true },
-    });
+    console.log('Found user:', user);
+    
+    if (user.paid) {
+      console.log('User already paid:', user.id);
+      return this.buildOkResponse(id);
+    }
+
+    const ducksCount = typeof user.ducks === 'string' ? parseFloat(user.ducks) : user.ducks;
+    const expectedSum = ducksCount * this.duckPrice;
+    const actualSum = parseFloat(formattedSum);
+
+    if (Math.abs(actualSum - expectedSum) > 0.01) return 'ERROR';
+
+    try {
+      await this.prisma.user.update({
+        where: { id: user.id },
+        data: { paid: true },
+      });
+    } catch (error) {
+      console.error('Error updating user:', error);
+      return 'ERROR';
+    }
 
     return this.buildOkResponse(id);
   }
