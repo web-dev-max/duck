@@ -42,7 +42,7 @@ const EventComponent = () => {
       <div className="about" id="contact">
         <div className="about-tick">
           <div className="about-tick-title">
-            HEPPY DUCK
+            HAPPY DUCK
           </div>
           <div className="marquee-container">
             <div className="marquee-content">

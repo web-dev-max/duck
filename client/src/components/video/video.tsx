@@ -8,7 +8,7 @@ const Video = () => (
       src="https://rutube.ru/play/embed/66435ef703bcad71a823868ab29ce6a3/"
       allow="clipboard-write; autoplay"
       allowFullScreen
-      title="HEPPY DUCK video"
+      title="HAPPY DUCK video"
     ></iframe>
   </div>
 );
