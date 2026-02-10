@@ -186,6 +186,11 @@ const FormComponents: FC<IFormComponents> = ({ isFormOpen, onClose, duckCount, o
               <p>Итого: <span>{totalPrice} ₽</span></p>
             </div>
         </Form.Item>
+        <div className="charity-info">
+            <p className="charity-text">
+                🎗️ Большая часть средств от мероприятия будет направлена в онкологический центр для помощи больным детям
+            </p>
+        </div>
         <Button className="more" onClick={onOpenModal}>📜 Правила мероприятия</Button>
 
         <Form.Item<FieldType>
