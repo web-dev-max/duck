@@ -21,7 +21,7 @@ const Header = () => {
       <nav>
         <a href="/"><img src="/images/duck.png" /></a>
         <ul>
-          <li><a href="/#contact">О нас</a></li>
+          <li><a href="/happyduck2026.pdf" target="_blank" rel="noopener noreferrer">О нас</a></li>
           <li className="media-li"><a href="/#video">Мероприятие</a></li>
           <li><a href="/#event" className="ticket">Билеты</a></li>
         </ul>
