@@ -59,7 +59,7 @@ const FormComponents: FC<IFormComponents> = ({ isFormOpen, onClose, duckCount, o
 
       const cart = JSON.stringify([
         {
-          name: `Билет на мероприятие: № ${verificationCode}. Номера ваших уток: ${duckNumbers}`,
+          name: `Билет на мероприятие: № <strong style="color: #0066cc;">${verificationCode}</strong>. Номера ваших уток: <span style="font-weight: bold; color: #ff6600;">${duckNumbers}</span>`,
           quantity: duckCount,
           price: Math.round(totalPrice / duckCount),
           amount: totalPrice,

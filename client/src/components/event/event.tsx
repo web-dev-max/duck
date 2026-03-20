@@ -20,7 +20,7 @@ const EventComponent = () => {
     setDuckCount(typeof value === 'number' ? value : null);
   };
 
-  const totalPrice = duckCount ? duckCount * 600 : 0;
+  const totalPrice = duckCount ? duckCount * 1000 : 0;
 
   const sharedProps = {
     mode: 'spinner' as const,
