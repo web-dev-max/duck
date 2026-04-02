@@ -1,5 +1,5 @@
 import type { FormProps, InputNumberProps } from "antd";
-import { Button, Checkbox, Form, Input, InputNumber, message, Modal } from 'antd';
+import { Alert, Button, Checkbox, Form, Input, InputNumber, message, Modal } from 'antd';
 import { MaskedInput } from 'antd-mask-input';
 import { type FC } from "react";
 
@@ -210,7 +210,10 @@ const FormComponents: FC<IFormComponents> = ({ isFormOpen, onClose, duckCount, o
             </span>
           </Checkbox>
         </Form.Item>
-
+        <Alert
+          description="Оплата возможна только банковской картой"
+          type="warning"
+        />
         <Form.Item>
           <Button type="primary" htmlType="submit">
             Перейти к оплате

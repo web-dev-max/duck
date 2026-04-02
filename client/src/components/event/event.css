@@ -24,6 +24,11 @@
     line-height: 1
 }
 
+.ant-alert-title {
+    font-weight: 400;
+    text-transform: uppercase;
+}
+
 .about-item {
   display: flex;
   align-items: center;

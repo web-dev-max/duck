@@ -1,4 +1,4 @@
-import { Button, InputNumber, type InputNumberProps } from 'antd';
+import { Alert, Button, InputNumber, type InputNumberProps } from 'antd';
 import { useState } from 'react';
 import { Typography, Row, Col } from 'antd';
 import { ModalComponents } from '../modal/modal';
@@ -132,6 +132,12 @@ const EventComponent = () => {
               {/* <span className="text" onClick={toggleOpenModal}>Правила мероприятия</span> */}
             </div>
           </div>
+          <Alert
+            title="Оплата возможна только банковской картой"
+            description="Оплата через СБП временно не поддерживается"
+            type="warning"
+            showIcon
+          />
         </div>
       </div>
       <ModalComponents isModalOpen={isModalOpen} onClose={toggleOpenModal} />
