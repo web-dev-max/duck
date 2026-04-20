@@ -20,6 +20,7 @@ model User {
   verificationCode String @unique
   createdAt DateTime @default(now())
   duckAssignments Duck[]
+  @@map("User")
 }
 
 model Duck {
@@ -28,4 +29,5 @@ model Duck {
   number    Int      @unique
   user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
   assignedAt DateTime @default(now())
+  @@map("Duck")
 }
