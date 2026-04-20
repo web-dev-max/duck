@@ -29,10 +29,17 @@ export class PaykeeperService {
     if (isNaN(this.duckPrice)) {
       throw new Error('DUCK_PRICE must be a valid number');
     }
+    
+    console.log('[SERVICE] Initialized with duckPrice:', this.duckPrice);
   }
 
   async process(payload: any): Promise<string> {
+    console.log('[SERVICE] 1. process() started');
+    console.log('[SERVICE] 2. Full payload:', JSON.stringify(payload, null, 2));
+    
     const { id, sum, orderid, clientid, key } = payload;
+    
+    console.log('[SERVICE] 3. Extracted fields:', { id, sum, orderid, clientid, key: key?.substring(0, 10) + '...' });
 
     const formattedSum = parseFloat(sum).toFixed(2);
     const expectedKey = crypto
@@ -40,29 +47,44 @@ export class PaykeeperService {
       .update(`${id}${formattedSum}${clientid || ''}${orderid || ''}${this.secretSeed}`)
       .digest('hex');
 
+    console.log('[SERVICE] 4. Signature check:', {
+      formattedSum,
+      expectedKey,
+      receivedKey: key,
+      match: key === expectedKey
+    });
+
     if (key !== expectedKey) {
-      console.error('Signature mismatch:', { key, expectedKey });
+      console.error('[SERVICE] 5. Signature mismatch - returning ERROR');
       return 'ERROR';
     }
 
     if (!orderid) {
-      console.error('Missing orderid');
+      console.error('[SERVICE] 6. Missing orderid - returning ERROR');
       return 'ERROR';
     }
 
+    console.log('[SERVICE] 7. Looking for user with verificationCode:', orderid, '(type:', typeof orderid, ')');
+
     const user = await this.prisma.user.findUnique({
-      where: { verificationCode: orderid },
+      where: { verificationCode: String(orderid) },
     });
 
     if (!user) {
-      console.error('User not found with verificationCode:', orderid);
+      console.error('[SERVICE] 8. User NOT found for verificationCode:', orderid);
       return 'ERROR';
     }
 
-    console.log('Found user:', user);
+    console.log('[SERVICE] 9. User found:', {
+      id: user.id,
+      email: user.email,
+      paid: user.paid,
+      ducks: user.ducks,
+      verificationCode: user.verificationCode
+    });
     
     if (user.paid) {
-      console.log('User already paid:', user.id);
+      console.log('[SERVICE] 10. User already paid - returning OK');
       return this.buildOkResponse(id);
     }
 
@@ -70,18 +92,36 @@ export class PaykeeperService {
     const expectedSum = ducksCount * this.duckPrice;
     const actualSum = parseFloat(formattedSum);
 
-    if (Math.abs(actualSum - expectedSum) > 0.01) return 'ERROR';
+    console.log('[SERVICE] 11. Amount check:', {
+      ducksCount,
+      duckPrice: this.duckPrice,
+      expectedSum,
+      actualSum,
+      difference: Math.abs(actualSum - expectedSum)
+    });
 
-    try {
-      await this.prisma.user.update({
-        where: { id: user.id },
-        data: { paid: true },
-      });
-    } catch (error) {
-      console.error('Error updating user:', error);
+    if (Math.abs(actualSum - expectedSum) > 0.01) {
+      console.error('[SERVICE] 12. Amount mismatch - returning ERROR');
       return 'ERROR';
     }
 
+    console.log('[SERVICE] 13. Updating user paid to true...');
+    
+    try {
+      const updatedUser = await this.prisma.user.update({
+        where: { id: user.id },
+        data: { paid: true },
+      });
+      console.log('[SERVICE] 14. User updated successfully:', {
+        id: updatedUser.id,
+        paid: updatedUser.paid
+      });
+    } catch (error) {
+      console.error('[SERVICE] 15. Error updating user:', error);
+      return 'ERROR';
+    }
+
+    console.log('[SERVICE] 16. Returning OK response');
     return this.buildOkResponse(id);
   }
 }
