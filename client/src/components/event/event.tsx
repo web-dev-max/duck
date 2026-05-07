@@ -114,7 +114,7 @@ const EventComponent = () => {
       <div className="event" id="event">
         <div className="event-block">
           <h2>Дата и время мероприятия</h2>
-          <p>07.06.2026 в 11:00</p>
+          <p>19.07.2026 в 11:00</p>
         </div>
         <div className="event-block">
           <h2>Адрес проведения</h2>
